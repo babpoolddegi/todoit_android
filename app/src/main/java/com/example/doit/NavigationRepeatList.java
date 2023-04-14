@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class NavigationRepeatList extends RecyclerView.Adapter<NavigationRepeatL
     }
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        private Button btnDelete;
+        private ImageButton btnDelete;
         private TextView tvRepeatContent;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

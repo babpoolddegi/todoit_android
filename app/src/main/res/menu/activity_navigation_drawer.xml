@@ -9,7 +9,7 @@
 
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/profileman"
             android:title="프로필" />
 </menu>
 
@@ -18,16 +18,16 @@
     <menu>
         <item
             android:id="@+id/nav_DoitList"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/list"
             android:title="할일리스트" />
         <item
             android:id="@+id/nav_repeat"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/work"
             android:title="반복 할일" />
         <item
-            android:id="@+id/like"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="받은 좋아요" />
+            android:id="@+id/friends"
+            android:icon="@drawable/heartplus"
+            android:title="친구 리스트" />
 
 </menu>
 
@@ -38,11 +38,11 @@
 
         <item
             android:id="@+id/nav_Update"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/facewoman"
             android:title="정보수정" />
         <item
             android:id="@+id/nav_Logout"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/logout"
             android:title="로그아웃" />
     </menu>
     </item>

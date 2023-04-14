@@ -15,21 +15,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/search_btn"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
-                app:layout_anchor="@+id/editText"
-                app:layout_anchorGravity="center" />
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <SearchView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:id="@+id/search_btn"
+                android:layout_marginTop="10dp"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friendview"

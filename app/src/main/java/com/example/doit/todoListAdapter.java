@@ -3,6 +3,7 @@ package com.example.doit;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,9 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyViewHolder> {
@@ -38,6 +48,8 @@ public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyView
         this.activity = activity;
     }
 
+    String todoList_key;
+
     // Main에 값을 넘겨주기 위해 리스너를 사용
     public void setListener(todoListListener listener){
         this.listener = listener;
@@ -45,14 +57,16 @@ public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         private CheckBox chkContent;
-        private Button btnDelete;
-        private Button btnUpdte;
+        private ImageButton btnDelete;
+        private ImageButton btnUpdte;
+        private ImageButton btnDate;
 
         public MyViewHolder(@NonNull View itemView, final todoListListener listener) {
             super(itemView);
             chkContent = itemView.findViewById(R.id.chkContent);
             btnDelete = itemView.findViewById(R.id.btnDelete);
             btnUpdte = itemView.findViewById(R.id.btnUpdate);
+            btnDate = itemView.findViewById(R.id.btnDate);
 
             // 수정버튼을 클릭했을 때
             btnUpdte.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +78,7 @@ public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyView
                     chkContent.setVisibility(View.GONE);
                     btnUpdte.setVisibility(View.GONE);
                     btnDelete.setVisibility(View.GONE);
+                    btnDate.setVisibility(View.GONE);
                 }
             });
         }
@@ -131,6 +146,12 @@ public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyView
             @Override
             public boolean onLongClick(View view) {
 
+                // 날짜 기본값(클릭을 하지 않으면 오늘날짜가 들어감)
+                Calendar cal = Calendar.getInstance();
+                Date nowDate = cal.getTime();
+                SimpleDateFormat dataformat = new SimpleDateFormat("yyyy-MM-dd");
+                String dateNow = dataformat.format(nowDate);
+
                 AlertDialog.Builder rdialog = new AlertDialog.Builder(activity);
                 rdialog.setTitle("반복 할일 지정")
                         .setMessage("반복 할 일로 등록하시겠습니까?")
@@ -142,7 +163,7 @@ public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyView
 
                                 if(todoList.getFlag() == 0){
                                     // 반복 일정 추가(DB)
-                                    RepeatList repeatList = new RepeatList(todoList.getContent(), 0, todoList.getUid(), todoList.getDate());
+                                    RepeatList repeatList = new RepeatList(todoList.getContent(), 0, todoList.getUid(), dateNow);
                                     databaseReference.child("repeatList").push().setValue(repeatList);
                                     databaseReference.child("todoList").child(key).child("flag").setValue(1);
                                     Toast.makeText(activity, "등록 되었습니다.", Toast.LENGTH_SHORT).show();
@@ -168,10 +189,43 @@ public class todoListAdapter extends RecyclerView.Adapter<todoListAdapter.MyView
             }
         });
 
+        // 날짜 수정 버튼
+        holder.btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                todoList_key = uidKey.get(position);
+                DatePickerDialog dialog = new DatePickerDialog(activity, listener1, 2023, 1, 9);
+                dialog.show();
+
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return todoLists==null?0:todoLists.size();
     }
+
+    String date;
+    private DatePickerDialog.OnDateSetListener listener1 = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+            // 날짜 계산
+            if(month<9 && dayOfMonth<10)
+                date = year + "-0" + (month + 1) + "-0" + dayOfMonth;
+            else if(month>=9 && dayOfMonth<10)
+                date = year + "-" + (month + 1) + "-0" + dayOfMonth;
+            else if(month<9 && dayOfMonth>=10)
+                date = year + "-0" + (month + 1) + "-" + dayOfMonth;
+            else if(month>=9 && dayOfMonth>=10)
+                date = year + "-" + (month + 1) + "-" + dayOfMonth;
+
+            // 날짜 변경
+            databaseReference.child("todoList").child(todoList_key).child("date").setValue(date);
+
+
+        }
+    };
 }

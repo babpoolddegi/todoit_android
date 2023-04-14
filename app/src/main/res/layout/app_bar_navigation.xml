@@ -19,8 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#FFFFFF"
-            android:layoutDirection="rtl"
-            app:popupTheme="@style/Theme.Doit.PopupOverlay" />
+            android:layoutDirection="ltr"
+            app:popupTheme="@style/Theme.Doit.PopupOverlay">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/todoit_logo_horizon_s"
+            android:backgroundTint="#fff"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

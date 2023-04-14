@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
-    <!-- 사진첩에서  가져오기. -->
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" /> <!-- 사진첩에서  가져오기. -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,55 +19,78 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Doit"
         tools:targetApi="31">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
 
         <activity
             android:name=".FindFriendActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".FriendListActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".LikeActivity"
-            android:theme="@style/Theme.Doit.NoActionBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Doit.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
-        <!--======================로딩==========================================-->
+        </activity> <!-- ======================로딩========================================== -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--======================회원가입==========================================-->
-        <activity android:name=".SignUpActivity"
+        <!-- ======================회원가입========================================== -->
+        <activity
+            android:name=".SignUpActivity"
             android:exported="false"
-            android:parentActivityName=".LogInActivity"/>
-        <!--======================메인==========================================-->
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.Doit.NoActionBar"
-            android:exported="false"/>
-        <!--======================네이게이션 메뉴의 할일 리스트==========================================-->
-        <activity android:name=".DoitList"
+            android:parentActivityName=".LogInActivity" />
+        <!-- ======================메인========================================== -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Doit.NoActionBar" />
+        <!-- ======================네이게이션 메뉴의 할일 리스트========================================== -->
+        <activity
+            android:name=".DoitList"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <!-- ======================네이게이션 메뉴의 반복 할 일========================================== -->
+        <activity
+            android:name=".ListRepeat"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <!--======================네이게이션 메뉴의 정보수정 ==========================================-->
+        <activity android:name=".ProfileUpdate"
             android:exported="false"
             android:parentActivityName=".MainActivity"/>
-        <!--======================네이게이션 메뉴의 반복 할 일==========================================-->
-        <activity android:name=".ListRepeat"
-            android:exported="false"
-            android:parentActivityName=".MainActivity"/>
-        <!--======================로그인==========================================-->
+        <!-- ======================로그인========================================== -->
         <activity
             android:name=".LogInActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Doit.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -74,11 +100,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -88,9 +113,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-
         </activity>
-
     </application>
 
 </manifest>

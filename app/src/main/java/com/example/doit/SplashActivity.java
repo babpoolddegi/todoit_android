@@ -6,26 +6,28 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
+import pl.droidsonroids.gif.GifImageView;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
-        moveMain(2);  // 2초후에 main액티비티로 이동
-    }
+        GifImageView gif_image = findViewById(R.id.gifSplash);
+        Glide.with(this).load(R.drawable.splash).into(gif_image);
 
-    private void moveMain(int sec) {
-        new Handler().postDelayed(new Runnable() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // new Intent(현재 content, 이동할 activity)
-                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-
-                startActivity(intent); // intent에 명시된 activity로 이동
-
-                finish();  // 현재 activity 종료
+                Intent intent = new Intent(SplashActivity.this, LogInActivity.class);
+                startActivity(intent);
+                finish();
             }
-        }, 1000 * sec);
+        }, 5000);
     }
 }

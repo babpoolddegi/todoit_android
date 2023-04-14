@@ -132,7 +132,7 @@ public class SignUpActivity extends AppCompatActivity {
         String pw = editTextPassword.getText().toString();
 
         // 프로필사진, 이름, 이메일, 비밀번호 중 하나라도 비어있으면 return
-        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(pw) || profile2 == null) {
+        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(pw) || profile2.getDrawable() == null) {
             Toast.makeText(getApplicationContext(), "정보를 입력하세요", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -178,5 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
+//        startActivity(intent);
     }
 }

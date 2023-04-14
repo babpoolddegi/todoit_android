@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class DoitList extends AppCompatActivity {
     private FirebaseUser user;
     private RecyclerView recyclerView;
     List<todoList> lists = new ArrayList<>();
+    List<String> keys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,60 +41,23 @@ public class DoitList extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         DoitListAdapter adapter = new DoitListAdapter(lists);
 
-//        database.getReference().child("todoList").orderByKey().addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//                //변화된 값이 DataSnapshot 으로 넘어온다.
-////                //데이터가 쌓이기 때문에  clear()
-//                lists.clear();
-//
-//                for (DataSnapshot ds : snapshot.getChildren()) {
-//                    todoList todolistDto = ds.getValue(todoList.class);
-//                    String uidKey = ds.getKey();
-//
-//                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(todolistDto.getUid())) {
-//                        lists.add(todolistDto);
-//                        //uidList.add(uidKey);
-//                    }
-//                }
-//                recyclerView.setAdapter(adapter);
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-        database.getReference().child("todoList").addValueEventListener(new ValueEventListener() {
+
+        Query lastQuery = databaseReference.child("todoList").orderByChild("date");
+        lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //변화된 값이 DataSnapshot 으로 넘어온다.
                 //데이터가 쌓이기 때문에  clear()
                 lists.clear();
+                keys.clear();
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     todoList todolistDto = ds.getValue(todoList.class);
-                    //String uidKey = ds.getKey();
+                    String uidKey = ds.getKey();
 
                     if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(todolistDto.getUid())) {
                         lists.add(todolistDto);
-                        //uidList.add(uidKey);
+                        keys.add(uidKey);
                     }
                 }
                 recyclerView.setAdapter(adapter);
@@ -103,6 +68,5 @@ public class DoitList extends AppCompatActivity {
 
             }
         });
-
     }
 }

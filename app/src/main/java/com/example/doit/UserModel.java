@@ -4,13 +4,17 @@ public class UserModel {
     String userName;  // 사용자 이름 (닉네임)
     String profileImgUrl; // 사용자 프로필 사진 url
     static String uid; // 현재 로그인한 사용자
+    String current;
 
-    public UserModel() {}
 
-    public UserModel(String userName, String profileImgUrl, String uid){
+    public UserModel() {
+    }
+
+    public UserModel(String userName, String profileImgUrl, String uid, String current) {
         this.userName = userName;
         this.profileImgUrl = profileImgUrl;
         this.uid = uid;
+        this.current = current;
     }
 
     public String getUserName() {
@@ -35,5 +39,13 @@ public class UserModel {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(String current) {
+        this.current = current;
     }
 }
